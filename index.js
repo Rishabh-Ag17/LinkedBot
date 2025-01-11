@@ -79,6 +79,28 @@ function generateLinkedInSuggestions(parsedData) {
     return suggestions;
   }
   
+// Generate Cover Letter
+function generateEnhancedCoverLetter(parsedData, jobDetails) {
+    const { skills, education, experience } = parsedData;
+  
+    const coverLetter = `
+  Dear ${jobDetails.hiringManager || "Hiring Manager"},
+  
+  I am thrilled to apply for the position of ${jobDetails.role || "Software Developer"} at ${jobDetails.company || "your esteemed company"}. With expertise in ${skills.slice(0, 3).join(", ")}, and a strong background in ${education[0] || "computer science"}, I am confident in my ability to contribute to your team.
+  
+  At ${experience[0] || "my previous role"}, I successfully ${jobDetails.keyAchievement || "achieved project goals, exceeding expectations"}. My dedication to ${jobDetails.value || "delivering excellence"} is reflected in my ${jobDetails.projectImpact || "team contributions and project success"}.
+  
+  I am especially drawn to ${jobDetails.companyValues || "your commitment to innovation"} and am eager to bring my passion for ${jobDetails.industry || "technology"} to your organization.
+  
+  Thank you for considering my application. I would be delighted to discuss how my skills align with your needs.
+  
+  Sincerely,
+  [Your Name]
+  `;
+  
+    return coverLetter;
+  }
+  
 
 
 // Handle messages
