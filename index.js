@@ -36,7 +36,52 @@ async function parseResumeWithSpacy(filePath) {
     });
   }
 
-  // Handle messages
+// Generate LinkedIn Suggestions
+function generateLinkedInSuggestions(parsedData) {
+    const suggestions = [];
+    const keywords = {
+      headline: ["software engineer", "developer", "manager"],
+      skills: ["JavaScript", "Python", "SQL", "React", "Node.js"],
+      education: ["B.Sc.", "M.Sc.", "PhD"],
+      certifications: ["AWS", "Google", "Microsoft"]
+    };
+  
+    const parsedText = [
+      ...parsedData.skills,
+      ...parsedData.education,
+      ...parsedData.experience
+    ].join(" "); // Join the extracted sections into a single string
+  
+    // Headline
+    if (!parsedText.toLowerCase().includes(keywords.headline[0])) {
+      suggestions.push("Add a professional headline such as 'Software Engineer | AI Enthusiast'.");
+    }
+  
+    // Skills
+    const detectedSkills = keywords.skills.filter(skill => parsedText.includes(skill));
+    if (detectedSkills.length === 0) {
+      suggestions.push("Your resume lacks key technical skills. Add relevant skills like JavaScript, Python, or SQL.");
+    } else {
+      suggestions.push(`Highlight the following skills on LinkedIn: ${detectedSkills.join(", ")}.`);
+    }
+  
+    // Education
+    if (!keywords.education.some(ed => parsedText.includes(ed))) {
+      suggestions.push("Your resume seems to lack education details. Add your degree and institution.");
+    }
+  
+    // Certifications
+    const detectedCerts = keywords.certifications.filter(cert => parsedText.includes(cert));
+    if (detectedCerts.length === 0) {
+      suggestions.push("Consider adding certifications like AWS Certified Developer or Google Professional Engineer.");
+    }
+  
+    return suggestions;
+  }
+  
+
+
+// Handle messages
 // Store job details temporarily
 // Store parsedData and jobDetails temporarily
 let parsedData = null;
